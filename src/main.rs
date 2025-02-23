@@ -1,5 +1,17 @@
-use sqlx::{PgPool};
-use chrono::{DateTime, Utc, NaiveDateTime};
+use std::borrow::Cow;
+
+use thiserror::Error;
+use sqlx::PgPool;
+use chrono::{DateTime, Utc};
+
+#[derive(Debug, Error)]
+enum BookingError {
+    #[error("Database error: {0}")]
+    DatabaseError(#[from] sqlx::Error),
+
+    #[error("Booking conflict: {0}")]
+    BookingConflict(String),
+}
 
 #[derive(Debug)]
 struct Booking {
@@ -17,8 +29,8 @@ async fn create_booking(
     end_time: DateTime<Utc>,
     note: Option<String>,
     user_id: String,
-) -> Result<Booking, sqlx::Error> {
-    let booking = sqlx::query_as!(
+) -> Result<Booking, BookingError> {
+    let result = sqlx::query_as!(
         Booking,
         r#"
         INSERT INTO bookings (resource_id, timespan, note, user_id)
@@ -32,19 +44,23 @@ async fn create_booking(
         user_id
     )
     .fetch_one(pool)
-    .await?;
+    .await;
 
-    Ok(booking)
+    match result {
+        Ok(booking) => Ok(booking),
+        Err(sqlx::Error::Database(db_err)) if db_err.code() == Some(Cow::Borrowed("23P01")) => {
+            Err(BookingError::BookingConflict("The booking times conflict with an existing booking.".to_string()))
+        }
+        Err(e) => Err(BookingError::DatabaseError(e)),
+    }
 }
 
 #[tokio::main]
-async fn main() -> Result<(), sqlx::Error> {
+async fn main() -> Result<(), BookingError> {
     let database_url = "postgres://boya:@localhost:28813/booking_system";
     let pool = PgPool::connect(database_url).await?;
 
-    //create a resource
-    let resource_id = 1;
-    let resource_name = "Room 1";
+    
 
     let resource_id = 1;
     let start_time = Utc::now();
@@ -54,7 +70,8 @@ async fn main() -> Result<(), sqlx::Error> {
 
     match create_booking(&pool, resource_id, start_time, end_time, note, user_id).await {
         Ok(booking) => println!("Booking created: {:?}", booking),
-        Err(e) => println!("Failed to create booking: {:?}", e),
+        Err(BookingError::BookingConflict(msg)) => println!("Failed to create booking: {}", msg),
+        Err(e) => println!("An error occurred: {:?}", e),
     }
 
     Ok(())
