@@ -1,0 +1,50 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO bookings (resource_id, timespan, note, user_id)\n        VALUES ($1, tstzrange($2, $3), $4, $5)\n        RETURNING id, resource_id, (lower(timespan), upper(timespan)) as \"timespan: (DateTime<Utc>, DateTime<Utc>)\", note, user_id\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "resource_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "timespan: (DateTime<Utc>, DateTime<Utc>)",
+        "type_info": "Record"
+      },
+      {
+        "ordinal": 3,
+        "name": "note",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "user_id",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Timestamptz",
+        "Timestamptz",
+        "Text",
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      null,
+      true,
+      false
+    ]
+  },
+  "hash": "7ba846c99b98c70863d5ef9bd25b28c998d7d21773a6d85803ea24e75002ef5d"
+}
