@@ -1,0 +1,44 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT id, resource_id, (lower(timespan), upper(timespan)) as \"timespan: (DateTime<Utc>, DateTime<Utc>)\", note, user_id\n        FROM bookings\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "resource_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "timespan: (DateTime<Utc>, DateTime<Utc>)",
+        "type_info": "Record"
+      },
+      {
+        "ordinal": 3,
+        "name": "note",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "user_id",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      null,
+      true,
+      false
+    ]
+  },
+  "hash": "3129bd07c78372b808e3b827f1d99fbe9ca60d9ddfe186fe979c4f999e70fa93"
+}

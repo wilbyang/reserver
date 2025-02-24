@@ -1,0 +1,68 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT id, name, category as \"category: ResourceCategory\", capacity, location, features, metadata\n        FROM resources\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "category: ResourceCategory",
+        "type_info": {
+          "Custom": {
+            "name": "resource_category",
+            "kind": {
+              "Enum": [
+                "room",
+                "device",
+                "vehicle",
+                "equipment"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "capacity",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "location",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "features",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 6,
+        "name": "metadata",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "a74d525a1510349a4e0f9654e50eb2387636a99d7d5bca351cecce007e5c560f"
+}

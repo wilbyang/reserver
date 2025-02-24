@@ -1,0 +1,88 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        UPDATE resources\n        SET name = $1, category = $2, capacity = $3, location = $4, features = $5, metadata = $6\n        WHERE id = $7\n        RETURNING id, name, category as \"category: ResourceCategory\", capacity, location, features, metadata\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "category: ResourceCategory",
+        "type_info": {
+          "Custom": {
+            "name": "resource_category",
+            "kind": {
+              "Enum": [
+                "room",
+                "device",
+                "vehicle",
+                "equipment"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "name": "capacity",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 4,
+        "name": "location",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "features",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 6,
+        "name": "metadata",
+        "type_info": "Jsonb"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text",
+        {
+          "Custom": {
+            "name": "resource_category",
+            "kind": {
+              "Enum": [
+                "room",
+                "device",
+                "vehicle",
+                "equipment"
+              ]
+            }
+          }
+        },
+        "Int4",
+        "Text",
+        "TextArray",
+        "Jsonb",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "92e67eac4fc7d8d1d5e29ebd6d18db84911621c82ead6aae2e5d555e0bb975f5"
+}

@@ -71,4 +71,24 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For any questions or issues, please open an issue on GitHub or contact the project maintainer at [your-email@example.com]. 
+For any questions or issues, please open an issue on GitHub or contact the project maintainer at [your-email@example.com].
+
+## Test Commands
+
+# Create a resource
+curl -X POST http://localhost:3000/resources \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Conference Room A",
+    "category": "room",
+    "capacity": 20,
+    "location": "Floor 2",
+    "features": ["projector", "whiteboard"],
+    "metadata": {
+      "area": "40m²",
+      "phone": "555-0123"
+    }
+  }'
+
+# Get resource availability
+curl "http://localhost:3000/resources/1/availability?start_time=2024-03-20T00:00:00Z&end_time=2024-03-21T00:00:00Z" 
