@@ -14,6 +14,9 @@ use thiserror::Error;
 use sqlx::PgPool;
 use chrono::{DateTime, Utc};
 
+mod user;
+
+use user::{login, UserRole, require_auth};
 
 #[derive(Debug, Error)]
 enum BookingError {
@@ -284,6 +287,8 @@ async fn main() -> Result<(), BookingError> {
     let pool = PgPool::connect(database_url).await?;
 
     let app = Router::new()
+        .route("/login", post(user::login))
+        
         .route("/resources", post(create_resource))
         .route("/resources", get(get_resources))
         .route("/resources/:id", get(get_resource))

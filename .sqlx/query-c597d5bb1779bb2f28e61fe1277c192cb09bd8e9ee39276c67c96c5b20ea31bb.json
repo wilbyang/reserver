@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "SELECT crypt($1, gen_salt('bf'))",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "crypt",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "c597d5bb1779bb2f28e61fe1277c192cb09bd8e9ee39276c67c96c5b20ea31bb"
+}
