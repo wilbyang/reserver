@@ -1,0 +1,66 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT id, user_id, resource_id, preferred_start, preferred_end, \n               status as \"status: WaitlistStatus\", note, created_at\n        FROM waitlist_entries\n        WHERE resource_id = $1 \n        AND status = 'pending'\n        AND preferred_start >= $2\n        AND preferred_end <= $3\n        ORDER BY created_at ASC\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "resource_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 3,
+        "name": "preferred_start",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 4,
+        "name": "preferred_end",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 5,
+        "name": "status: WaitlistStatus",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "note",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Timestamptz",
+        "Timestamptz"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false
+    ]
+  },
+  "hash": "2b67fef1d4c5ca12139c6389d11dff220a1e2064990916fce2d52ad31f42b29f"
+}

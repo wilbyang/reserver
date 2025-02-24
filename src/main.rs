@@ -14,9 +14,15 @@ use thiserror::Error;
 use sqlx::PgPool;
 use chrono::{DateTime, Utc};
 
+mod middleware;
 mod user;
+mod waitlist;
 
 use user::{login, UserRole, require_auth};
+use waitlist::{
+    create_waitlist_entry, get_resource_waitlist,
+    get_user_waitlist, cancel_waitlist_entry,
+};
 
 #[derive(Debug, Error)]
 enum BookingError {
@@ -297,6 +303,10 @@ async fn main() -> Result<(), BookingError> {
         .route("/resources/:id/availability", get(get_resource_availability))
         .route("/bookings", post(create_booking))
         .route("/bookings", get(get_bookings))
+        .route("/waitlist", post(create_waitlist_entry))
+        .route("/waitlist/user", get(get_user_waitlist))
+        .route("/waitlist/resource/:id", get(get_resource_waitlist))
+        .route("/waitlist/:id", delete(cancel_waitlist_entry))
         .with_state(pool);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));

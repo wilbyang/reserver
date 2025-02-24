@@ -59,12 +59,12 @@ pub struct RegisterRequest {
     role: UserRole,
 }
 
-#[derive(Debug, Serialize)]
-struct Claims {
-    sub: i32, // user_id
-    email: String,
-    role: UserRole,
-    exp: i64,
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Claims {
+    pub sub: i32, // user_id
+    pub email: String,
+    pub role: UserRole,
+    pub exp: i64,
 }
 
 impl IntoResponse for UserError {

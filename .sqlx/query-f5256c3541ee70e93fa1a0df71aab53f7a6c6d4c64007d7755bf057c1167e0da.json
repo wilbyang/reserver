@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE waitlist_entries\n            SET status = 'notified'\n            WHERE id = $1\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Int4"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "f5256c3541ee70e93fa1a0df71aab53f7a6c6d4c64007d7755bf057c1167e0da"
+}
