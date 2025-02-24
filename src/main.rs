@@ -288,7 +288,7 @@ async fn main() -> Result<(), BookingError> {
 
     let app = Router::new()
         .route("/login", post(user::login))
-        
+        .route("/register", post(user::register))
         .route("/resources", post(create_resource))
         .route("/resources", get(get_resources))
         .route("/resources/:id", get(get_resource))

@@ -106,7 +106,34 @@ pub async fn login(
     }
 }
 
+pub async fn register(
+    State(pool): State<PgPool>,
+    Json(request): Json<RegisterRequest>,
+) -> Result<impl IntoResponse, UserError> {
+    let password_hash = sqlx::query_scalar!(
+        "SELECT crypt($1, gen_salt('bf'))",
+        request.password
+    )
+    .fetch_one(&pool)
+    .await?;
 
+    let user = sqlx::query_as!(
+        User,
+        r#"
+        INSERT INTO users (email, password_hash, role, status, preferences, created_at)
+        VALUES ($1, $2, $3, 'active', '{}', NOW())
+        RETURNING id, email, role as "role: UserRole", status as "status: UserStatus",
+                  preferences, created_at
+        "#,
+        request.email,
+        password_hash,
+        request.role as UserRole
+    )
+    .fetch_one(&pool)
+    .await?;
+
+    Ok((StatusCode::CREATED, Json(user)))
+}
 
 fn create_jwt(user: &User) -> Result<String, UserError> {
     let expiration = Utc::now()

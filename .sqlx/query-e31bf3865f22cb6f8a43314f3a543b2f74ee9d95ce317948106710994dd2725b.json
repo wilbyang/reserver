@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        INSERT INTO users (email, password_hash, role, status, preferences, created_at)\n        VALUES ($1, $2, $3, 'active', '{}', NOW())\n        RETURNING id, email, role as \"role: UserRole\", status as \"status: UserStatus\", \n                  preferences, created_at\n        ",
+  "query": "\n        INSERT INTO users (email, password_hash, role, status, preferences, created_at)\n        VALUES ($1, $2, $3, 'active', '{}', NOW())\n        RETURNING id, email, role as \"role: UserRole\", status as \"status: UserStatus\",\n                  preferences, created_at\n        ",
   "describe": {
     "columns": [
       {
@@ -81,5 +81,5 @@
       false
     ]
   },
-  "hash": "cbba4eff57e781d3b9ed4e3c1a9587f95d6125ee07cda5c9c34a39d114737343"
+  "hash": "e31bf3865f22cb6f8a43314f3a543b2f74ee9d95ce317948106710994dd2725b"
 }
